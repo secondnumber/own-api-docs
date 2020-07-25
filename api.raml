@@ -1,0 +1,439 @@
+#%RAML 1.0
+---
+title: Sonial Network
+baseUri: https://secondnumber.ru/api/v1
+version: v1
+
+/auth:
+  /login:
+    post:
+    description: Authorize on the service
+    queryParameters:
+      email:
+        displayName: email
+        type: string
+        description: valid confirmed user email address, which used during registration
+        example: info@gmail.com
+        required: true
+      password:
+        displayName: password
+        type: string
+        description: valid user password
+        example: ng5gj21gj
+        required: true
+      rememberMe:
+        displayName: rememberMe
+        type: boolean
+        description: if true, then session will not be expired after session finishing
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              resultCode:
+                displayName: resultCode
+                type: number
+                description: 0 if opearation completed successfullt, other numbers - some error occured
+                required: true
+              messages:
+                displayName: messages
+                type: array
+                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                required: true
+              data:
+                displayName: data
+                type: object
+                description: some additional data
+                required: false
+            example: |
+              {
+                  "resultCode": 0
+                  "messages": [],
+                  "data": {
+                    "id": 2
+                  }
+              }
+    delete:
+      description: Unfollow requested user
+      responses:
+        200:
+        body:
+          application/json:
+            type: object
+            properties:
+              resultCode:
+                displayName: resultCode
+                type: number
+                description: 0 if opearation completed successfullt, other numbers - some error occured
+                required: true
+              messages:
+                displayName: messages
+                type: array
+                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                required: true
+              data:
+                displayName: data
+                type: object
+                description: some additional data
+                required: false
+            example: |
+              {
+                  "resultCode": 1
+                  "messages": ['Something wrong'],
+                  "data": {}
+              }
+  /me:
+    get:
+    description: Is current user authorized
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              data:
+                displayName: data
+                type: object
+                description: if user is authenticated then data contains all this properties
+                required: true
+                  properties:
+                    id:
+                      displayName: id
+                      type: number
+                      description: logged user id
+                      required: true
+              resultCode:
+                displayName: resultCode
+                type: number
+                description: 0 if opearation completed successfullt, other numbers - some error occured
+                required: true
+              messages:
+                displayName: messages
+                type: array
+                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                required: true
+            example: |
+              {
+                  "resultCode": 0
+                  "messages": [],
+                  "data": {
+                    "id": 2,
+                    "email": 'info@gmail.com',
+                    "login": 'some name'
+                  }
+              }
+/users:
+  get:
+    description: Returns all (or only filtered by name with term parameter) users splitted by page
+    queryParameters:
+      count:
+        displayName: count
+        type: number
+        description: page size (how many items will be returned in response) default - 10 maximum - 100
+        required: false
+      page:
+        displayName: page
+        type: number
+        description: number of portion of items
+        required: false
+      term:
+        displayName: term
+        type: string
+        description: user name string for searching
+        required: false
+      followed:
+        displayName: followed
+        type: boolean
+        description: if true, then find only followed users, false - only not followed users, if omit parameter - all users
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              items:
+                displayName: items
+                type: object
+                description: if user is authenticated then data contains all this properties
+                required: true
+              totalCount:
+                displayName: totalCount
+                type: number
+                description: total amount of registered users
+                required: true
+              resultCode:
+                displayName: resultCode
+                type: number
+                description: 0 if opearation completed successfullt, other numbers - some error occured
+                required: true
+              messages:
+                displayName: messages
+                type: array
+                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                required: true
+            example: |
+              {
+                "items": [
+                  {
+                    "name": "Some name",
+                    "id": 1,
+                    "status": "Hello",
+                    "description": "Hi! My name is Marina but some people may know me as GameHuntress!",
+                    "avatar": "https://photos.google.com/0",
+                    "photos": [
+                      "https://photos.google.com/1",
+                      "https://photos.google.com/2"
+                    ],
+                    "videos": [
+                      "https://videos.com/1",
+                      "https://videos.com/2"
+                    ],
+                    "followed": true,
+                    "friends": {
+                      "friendsItem": [{"id": 3}, {"id": 7}],
+                      "friendsCount": 0
+                    },
+                    "contacts": {
+                      "website": null,
+                      "facebook": "https://facebook.com",
+                      "vk": "https://vk.com",
+                      "twitter": "https://twitter.com",
+                      "instagram": "https://instagram.com",
+                      "youtube": null,
+                      "twitch": "https://www.twitch.tv",
+                      "discord": "https://discord.com/new",
+                      "patreon": "https://www.patreon.com/"
+                    },
+                    "badges": {
+                      "bronze": true,
+                      "silver": true,
+                      "gold": false,
+                      "platinum": false
+                    }
+                  },
+                  {
+                    "name": "Some other name",
+                    "id": 2,
+                    "status": "Hi",
+                    "description": null,
+                    "avatar": null,
+                    "photos": [],
+                    "videos": [],
+                    "followed": false,
+                    "friends": {
+                      "friendsItem": [],
+                      "friendsCount": 0
+                    },
+                    "contacts": {
+                      "website": null,
+                      "facebook": null,
+                      "vk": null,
+                      "twitter": null,
+                      "instagram": null,
+                      "youtube": null,
+                      "twitch": null,
+                      "discord": null,
+                      "patreon": null
+                    },
+                    "badges": {
+                      "bronze": false,
+                      "silver": false,
+                      "gold": false,
+                      "platinum": false
+                    }
+                  }
+                ],
+                "messages": [],
+                "totalCount": 2,
+                "resultCode": 0
+              }
+/follow:
+  /{id}:
+    get:
+      description: Is current user follower for requested user
+        uriParameters:
+          id:
+            displayName: id
+            type: number
+            required: true
+      responses:
+        200:
+          body:
+            application/json:
+              type: boolean
+              example: true
+    post:
+      description: Follow requested user
+        uriParameters:
+          id:
+            displayName: id
+            type: number
+            required: true
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+                data:
+                  displayName: data
+                  type: object
+                  description: some additional data
+                  required: true
+              example: |
+                {
+                  "resultCode": 1
+                  "messages": ["Something went wrong"],
+                  "data": {}
+                }
+    delete:
+      description: Unfollow requested user
+        uriParameters:
+          id:
+            displayName: id
+            type: number
+            required: true
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+                data:
+                  displayName: data
+                  type: object
+                  description: some additional data
+                  required: true
+              example: |
+                {
+                  "resultCode": 1
+                  "messages": ["Something went wrong"],
+                  "data": {}
+                }
+/profile:
+    put:
+      description: Update current user profile
+      queryParameters:
+        id:
+          displayName: id
+          type: number
+          required: true
+        name:
+          displayName: name
+          type: string
+          required: false
+        status:
+          displayName: status
+          type: string
+          required: false
+        description:
+          displayName: description
+          type: string
+          required: false
+        contacts:
+          displayName: contacts
+          type: object
+          required: false
+          properties:
+            website:
+              displayName: website
+              type: string
+              required: false
+            facebook:
+              displayName: facebook
+              type: string
+              required: false
+            vk:
+              displayName: vk
+              type: string
+              required: false
+            twitter:
+              displayName: twitter
+              type: string
+              required: false
+            instagram:
+              displayName: instagram
+              type: string
+              required: false
+            youtube:
+              displayName: youtube
+              type: string
+              required: false
+            twitch:
+              displayName: twitch
+              type: string
+              required: false
+            discord:
+              displayName: discord
+              type: string
+              required: false
+            patreon:
+              displayName: patreon
+              type: string
+              required: false
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+                data:
+                  displayName: data
+                  type: object
+                  description: some additional data
+                  required: false
+              example: |
+                {
+                    "resultCode": 1
+                    "messages": ["Something went wrong"],
+                    "data": {}
+                }
+    /avatar:
+      put:
+        body:
+          multipart/form-data:
+          type: object
+        queryParameters:
+          id:
+            displayName: id
+            type: number
+            required: true
+  /status:
+    put:
+  /status/{id}:
+    get:
+  /{id}:
+    get:
