@@ -7,123 +7,123 @@ version: v1
 /auth:
   /login:
     post:
-    description: Authorize on the service
-    queryParameters:
-      email:
-        displayName: email
-        type: string
-        description: valid confirmed user email address, which used during registration
-        example: info@gmail.com
-        required: true
-      password:
-        displayName: password
-        type: string
-        description: valid user password
-        example: ng5gj21gj
-        required: true
-      rememberMe:
-        displayName: rememberMe
-        type: boolean
-        description: if true, then session will not be expired after session finishing
-        required: false
-    responses:
-      200:
-        body:
-          application/json:
-            type: object
-            properties:
-              resultCode:
-                displayName: resultCode
-                type: number
-                description: 0 if opearation completed successfullt, other numbers - some error occured
-                required: true
-              messages:
-                displayName: messages
-                type: array
-                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
-                required: true
-              data:
-                displayName: data
-                type: object
-                description: some additional data
-                required: false
-            example: |
-              {
-                  "resultCode": 0
-                  "messages": [],
-                  "data": {
-                    "id": 2
-                  }
-              }
+      description: Authorize on the service
+      queryParameters:
+        email:
+          displayName: email
+          type: string
+          description: valid confirmed user email address, which used during registration
+          example: info@gmail.com
+          required: true
+        password:
+          displayName: password
+          type: string
+          description: valid user password
+          example: ng5gj21gj
+          required: true
+        rememberMe:
+          displayName: rememberMe
+          type: boolean
+          description: if true, then session will not be expired after session finishing
+          required: false
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+                data:
+                  displayName: data
+                  type: object
+                  description: some additional data
+                  required: false
+              example: |
+                {
+                    "resultCode": 0
+                    "messages": [],
+                    "data": {
+                      "id": 2
+                    }
+                }
     delete:
       description: Unfollow requested user
       responses:
         200:
-        body:
-          application/json:
-            type: object
-            properties:
-              resultCode:
-                displayName: resultCode
-                type: number
-                description: 0 if opearation completed successfullt, other numbers - some error occured
-                required: true
-              messages:
-                displayName: messages
-                type: array
-                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
-                required: true
-              data:
-                displayName: data
-                type: object
-                description: some additional data
-                required: false
-            example: |
-              {
-                  "resultCode": 1
-                  "messages": ['Something wrong'],
-                  "data": {}
-              }
+          body:
+            application/json:
+              type: object
+              properties:
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+                data:
+                  displayName: data
+                  type: object
+                  description: some additional data
+                  required: false
+              example: |
+                {
+                    "resultCode": 1
+                    "messages": ['Something went wrong'],
+                    "data": {}
+                }
   /me:
     get:
-    description: Is current user authorized
-    responses:
-      200:
-        body:
-          application/json:
-            type: object
-            properties:
-              data:
-                displayName: data
-                type: object
-                description: if user is authenticated then data contains all this properties
-                required: true
-                  properties:
-                    id:
-                      displayName: id
-                      type: number
-                      description: logged user id
-                      required: true
-              resultCode:
-                displayName: resultCode
-                type: number
-                description: 0 if opearation completed successfullt, other numbers - some error occured
-                required: true
-              messages:
-                displayName: messages
-                type: array
-                description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
-                required: true
-            example: |
-              {
-                  "resultCode": 0
-                  "messages": [],
-                  "data": {
-                    "id": 2,
-                    "email": 'info@gmail.com',
-                    "login": 'some name'
-                  }
-              }
+      description: Is current user authorized
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              properties:
+                data:
+                  displayName: data
+                  type: object
+                  description: if user is authenticated then data contains all this properties
+                  required: true
+                    properties:
+                      id:
+                        displayName: id
+                        type: number
+                        description: logged user id
+                        required: true
+                resultCode:
+                  displayName: resultCode
+                  type: number
+                  description: 0 if opearation completed successfullt, other numbers - some error occured
+                  required: true
+                messages:
+                  displayName: messages
+                  type: array
+                  description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                  required: true
+              example: |
+                {
+                    "resultCode": 0
+                    "messages": [],
+                    "data": {
+                      "id": 2,
+                      "email": 'info@gmail.com',
+                      "login": 'some name'
+                    }
+                }
 /users:
   get:
     description: Returns all (or only filtered by name with term parameter) users splitted by page
@@ -178,11 +178,12 @@ version: v1
               {
                 "items": [
                   {
-                    "name": "Some name",
                     "id": 1,
+                    "name": "Some name",
                     "status": "Hello",
-                    "description": "Hi! My name is Marina but some people may know me as GameHuntress!",
+                    "about": "Hi! My name is Marina but some people may know me as GameHuntress!",
                     "avatar": "https://photos.google.com/0",
+                    "exp": 26,
                     "photos": [
                       "https://photos.google.com/1",
                       "https://photos.google.com/2"
@@ -190,6 +191,12 @@ version: v1
                     "videos": [
                       "https://videos.com/1",
                       "https://videos.com/2"
+                    ],
+                    "posts": [
+                      {"id": 1,
+                       "header": "Here's the how",
+                        "text": " and why did I became a full time Gaming Streamer",
+                         "date": "2 days ago"}
                     ],
                     "followed": true,
                     "friends": {
@@ -215,13 +222,15 @@ version: v1
                     }
                   },
                   {
-                    "name": "Some other name",
                     "id": 2,
+                    "name": "Some other name",
                     "status": "Hi",
-                    "description": null,
+                    "about": null,
                     "avatar": null,
+                    "exp": 3,
                     "photos": [],
                     "videos": [],
+                    "posts": [],
                     "followed": false,
                     "friends": {
                       "friendsItem": [],
@@ -423,17 +432,218 @@ version: v1
                 }
     /avatar:
       put:
+        description: Update current user avatar
         body:
           multipart/form-data:
-          type: object
+            type: object
+        queryParameters:
+          image:
+            displayName: image
+            type: file
+            required: true
+        responses:
+          200:
+            body:
+              application/json:
+                type: object
+                properties:
+                  resultCode:
+                    displayName: resultCode
+                    type: number
+                    description: 0 if opearation completed successfullt, other numbers - some error occured
+                    required: true
+                  messages:
+                    displayName: messages
+                    type: array
+                    description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                    required: true
+                  data:
+                    displayName: data
+                    type: object
+                    description: some additional data
+                    required: true
+                    properties:
+                      avatar:
+                        displayName: avatar
+                        type: string
+                        description: URL address of user photo (null if photo is not uploaded to the server)
+                example: |
+                  {
+                      "resultCode": 0
+                      "messages": [],
+                      "data": {
+                        "avatar": "https://photos.google.com/0"
+                      }
+                  }
+    /status:
+      put:
+        description: Update current user status
+        queryParameters:
+          status:
+            displayName: status
+            type: string
+            description: string with maxLength 300
+            required: true
+        responses:
+          200:
+            body:
+              application/json:
+                type: object
+                properties:
+                  resultCode:
+                    displayName: resultCode
+                    type: number
+                    description: 0 if opearation completed successfullt, other numbers - some error occured
+                    required: true
+                  messages:
+                    displayName: messages
+                    type: array
+                    description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                    required: true
+                  data:
+                    displayName: data
+                    type: object
+                    description: some additional data
+                    required: false
+                example: |
+                  {
+                      "resultCode": 1
+                      "messages": ["Something went wrong"],
+                      "data": {}
+                  }
+
+    /{id}:
+      get:
+        description: Returns requested user
         queryParameters:
           id:
             displayName: id
             type: number
+            description: requested user id
             required: true
-  /status:
-    put:
-  /status/{id}:
-    get:
-  /{id}:
-    get:
+        responses:
+          200:
+            body:
+              application/json:
+                type: object
+                properties:
+                  data:
+                    displayName: data
+                    type: object
+                    description: data contains all requested user properties (except email and password)
+                    required: true
+                    properties:
+                      id:
+                        displayName: id
+                        type: number
+                        description: user id
+                        required: true
+                      name:
+                        displayName: name
+                        type: string
+                        required: false
+                      status:
+                        displayName: status
+                        type: string
+                        required: false
+                      about:
+                        displayName: about
+                        type: string
+                        required: false
+                      avatar:
+                        displayName: avatar
+                        type: string
+                        required: false
+                      exp:
+                        displayName: exp
+                        type: number
+                        required: false
+                      photos:
+                        displayName: photos
+                        type: array
+                        required: false
+                      videos:
+                        displayName: videos
+                        type: array
+                        required: false
+                      posts:
+                        displayName: posts
+                        type: object
+                        required: false
+                      followed:
+                        displayName: followed
+                        type: boolean
+                        required: false
+                      friends:
+                        displayName: friends
+                        type: object
+                        required: false
+                      contacts:
+                        displayName: contacts
+                        type: object
+                        required: false
+                      badges:
+                        displayName: badges
+                        type: object
+                        required: false
+                  resultCode:
+                    displayName: resultCode
+                    type: number
+                    description: 0 if opearation completed successfullt, other numbers - some error occured
+                    required: true
+                  messages:
+                    displayName: messages
+                    type: array
+                    description: is empty if resultCode is 0, contains error messages if resultCode is different from 0
+                    required: true
+                example: |
+                  {
+                    "data":
+                      {
+                        "id": 1,
+                        "name": "Some name",
+                        "status": "Hello",
+                        "about": "Hi! My name is Marina but some people may know me as GameHuntress!",
+                        "avatar": "https://photos.google.com/0",
+                        "exp": 26,
+                        "photos": [
+                          "https://photos.google.com/1",
+                          "https://photos.google.com/2"
+                        ],
+                        "videos": [
+                          "https://videos.com/1",
+                          "https://videos.com/2"
+                        ],
+                        "posts": [
+                          {"id": 1,
+                           "header": "Here's the how",
+                            "text": " and why did I became a full time Gaming Streamer",
+                             "date": "2 days ago"}
+                        ],
+                        "followed": true,
+                        "friends": {
+                          "friendsItem": [{"id": 3}, {"id": 7}],
+                          "friendsCount": 0
+                        },
+                        "contacts": {
+                          "website": null,
+                          "facebook": "https://facebook.com",
+                          "vk": "https://vk.com",
+                          "twitter": "https://twitter.com",
+                          "instagram": "https://instagram.com",
+                          "youtube": null,
+                          "twitch": "https://www.twitch.tv",
+                          "discord": "https://discord.com/new",
+                          "patreon": "https://www.patreon.com/"
+                        },
+                        "badges": {
+                          "bronze": true,
+                          "silver": true,
+                          "gold": false,
+                          "platinum": false
+                        }
+                      }
+                    "messages": [],
+                    "resultCode": 0
+                  }
+
